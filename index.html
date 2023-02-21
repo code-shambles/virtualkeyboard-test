@@ -67,12 +67,33 @@
       <div class="dataLabel">outerHeight</div>
       <div id="windowOuterHeight"></div>
 
-      <div class="dataLabel">clientWidth</div>
-      <div id="windowClientWidth"></div>
-      <div class="dataLabel">clientHeight</div>
-      <div id="windowClientHeight"></div>
-
       <div class="headingRow">
+        <div class="headingRowBg"></div>
+        window.visualViewport
+      </div>
+
+      <div class="dataLabel">API available</div>
+      <div id="visualViewportAvailable"></div>
+
+      <div class="dataLabel">offsetLeft</div>
+      <div id="visualViewportOffsetLeft"></div>
+      <div class="dataLabel">offsetTop</div>
+      <div id="visualViewportOffsetTop"></div>
+
+      <div class="dataLabel">pageLeft</div>
+      <div id="visualViewportPageLeft"></div>
+      <div class="dataLabel">pageTop</div>
+      <div id="visualViewportPageTop"></div>
+
+      <div class="dataLabel">width</div>
+      <div id="visualViewportWidth"></div>
+      <div class="dataLabel">height</div>
+      <div id="visualViewportHeight"></div>
+
+      <div class="dataLabel">scale</div>
+      <div id="visualViewportScale"></div>
+
+      <!-- <div class="headingRow">
         <div class="headingRowBg"></div>
         navigator.virtualKeyboard
       </div>
@@ -97,14 +118,14 @@
       <div class="dataLabel">boundingRect bottom</div>
       <div id="virtualKeyboardBottom"></div>
       <div class="dataLabel">boundingRect left</div>
-      <div id="virtualKeyboardLeft"></div>
+      <div id="virtualKeyboardLeft"></div> -->
     </div>
 
-    <div class="headingRow">
+    <!-- <div class="headingRow">
       <div class="headingRowBg"></div>
       <input type="checkbox" checked id="virtualKeyboardOptOut" />use automatic
       virtualKeyboard
-    </div>
+    </div> -->
 
     <div class="headingRow">
       <div class="headingRowBg"></div>
@@ -119,33 +140,52 @@
         return value
       }
 
-      const writeVirtualKeyboardData = ({
-        width,
-        height,
-        x,
-        y,
-        top,
-        right,
-        bottom,
-        left,
-      }) => {
-        out.virtualKeyboardWidth.innerText = formatData(width)
-        out.virtualKeyboardHeight.innerText = formatData(height)
-        out.virtualKeyboardX.innerText = formatData(x)
-        out.virtualKeyboardY.innerText = formatData(y)
-        out.virtualKeyboardTop.innerText = formatData(top)
-        out.virtualKeyboardRight.innerText = formatData(right)
-        out.virtualKeyboardBottom.innerText = formatData(bottom)
-        out.virtualKeyboardLeft.innerText = formatData(left)
-      }
+      // const writeVirtualKeyboardData = ({
+      //   width,
+      //   height,
+      //   x,
+      //   y,
+      //   top,
+      //   right,
+      //   bottom,
+      //   left,
+      // }) => {
+      //   out.virtualKeyboardWidth.innerText = formatData(width)
+      //   out.virtualKeyboardHeight.innerText = formatData(height)
+      //   out.virtualKeyboardX.innerText = formatData(x)
+      //   out.virtualKeyboardY.innerText = formatData(y)
+      //   out.virtualKeyboardTop.innerText = formatData(top)
+      //   out.virtualKeyboardRight.innerText = formatData(right)
+      //   out.virtualKeyboardBottom.innerText = formatData(bottom)
+      //   out.virtualKeyboardLeft.innerText = formatData(left)
+      // }
 
       const writeWindowData = () => {
         out.windowInnerWidth.innerText = formatData(window.innerWidth)
         out.windowInnerHeight.innerText = formatData(window.innerHeight)
         out.windowOuterWidth.innerText = formatData(window.outerWidth)
         out.windowOuterHeight.innerText = formatData(window.outerHeight)
-        out.windowClientWidth.innerText = formatData(window.clientWidth)
-        out.windowClientHeight.innerText = formatData(window.clientHeight)
+      }
+
+      const writeVisualViewportData = () => {
+        out.visualViewportOffsetLeft.innerText = formatData(
+          window.visualViewport.offsetLeft
+        )
+        out.visualViewportOffsetTop.innerText = formatData(
+          window.visualViewport.offsetTop
+        )
+        out.visualViewportPageLeft.innerText = formatData(
+          window.visualViewport.pageLeft
+        )
+        out.visualViewportPageTop.innerText = formatData(
+          window.visualViewport.pageTop
+        )
+        out.visualViewportWidth.innerText = formatData(
+          window.visualViewport.width
+        )
+        out.visualViewportHeight.innerText = formatData(
+          window.visualViewport.height
+        )
       }
 
       const virtualKeyboardToggle = document.getElementById(
@@ -157,41 +197,73 @@
         windowInnerHeight: document.getElementById("windowInnerHeight"),
         windowOuterWidth: document.getElementById("windowOuterWidth"),
         windowOuterHeight: document.getElementById("windowOuterHeight"),
-        windowClientWidth: document.getElementById("windowClientWidth"),
-        windowClientHeight: document.getElementById("windowClientHeight"),
+        hasVisualViewportAvailable: document.getElementById(
+          "visualViewportAvailable"
+        ),
+        visualViewportOffsetLeft: document.getElementById(
+          "visualViewportOffsetLeft"
+        ),
+        visualViewportOffsetTop: document.getElementById(
+          "visualViewportOffsetTop"
+        ),
+        visualViewportPageLeft: document.getElementById(
+          "visualViewportPageLeft"
+        ),
+        visualViewportPageTop: document.getElementById("visualViewportPageTop"),
+        visualViewportWidth: document.getElementById("visualViewportWidth"),
+        visualViewportHeight: document.getElementById("visualViewportHeight"),
+        visualViewportScale: document.getElementById("visualViewportScale"),
         virtualKeyboardAvailable: document.getElementById(
           "virtualKeyboardAvailable"
         ),
-        virtualKeyboardWidth: document.getElementById("virtualKeyboardWidth"),
-        virtualKeyboardHeight: document.getElementById("virtualKeyboardHeight"),
-        virtualKeyboardX: document.getElementById("virtualKeyboardX"),
-        virtualKeyboardY: document.getElementById("virtualKeyboardY"),
-        virtualKeyboardTop: document.getElementById("virtualKeyboardTop"),
-        virtualKeyboardRight: document.getElementById("virtualKeyboardRight"),
-        virtualKeyboardBottom: document.getElementById("virtualKeyboardBottom"),
-        virtualKeyboardLeft: document.getElementById("virtualKeyboardLeft"),
+        // virtualKeyboardWidth: document.getElementById("virtualKeyboardWidth"),
+        // virtualKeyboardHeight: document.getElementById("virtualKeyboardHeight"),
+        // virtualKeyboardX: document.getElementById("virtualKeyboardX"),
+        // virtualKeyboardY: document.getElementById("virtualKeyboardY"),
+        // virtualKeyboardTop: document.getElementById("virtualKeyboardTop"),
+        // virtualKeyboardRight: document.getElementById("virtualKeyboardRight"),
+        // virtualKeyboardBottom: document.getElementById("virtualKeyboardBottom"),
+        // virtualKeyboardLeft: document.getElementById("virtualKeyboardLeft"),
+      }
+
+      window.addEventListener("resize", writeWindowData)
+      writeWindowData()
+
+      const hasVisualViewport = "visualViewport" in window
+
+      out.hasVisualViewportAvailable.innerText = hasVisualViewport
+        ? "YES"
+        : "NO"
+
+      if (hasVisualViewport) {
+        window.visualViewport.addEventListener(
+          "resize",
+          writeVisualViewportData
+        )
+        window.visualViewport.addEventListener(
+          "scroll",
+          writeVisualViewportData
+        )
+        writeVisualViewportData()
       }
 
       const hasVirtualKeyboard = "virtualKeyboard" in navigator
 
-      window.addEventListener("resize", writeWindowData)
+      // if (hasVirtualKeyboard) {
+      //   navigator.virtualKeyboard.addEventListener(
+      //     "geometrychange",
+      //     (event) => {
+      //       writeVirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
+      //     }
+      //   )
 
-      if (hasVirtualKeyboard) {
-        navigator.virtualKeyboard.addEventListener(
-          "geometrychange",
-          (event) => {
-            writeVirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
-          }
-        )
+      //   virtualKeyboardToggle.addEventListener("change", (event) => {
+      //     navigator.virtualKeyboard.overlaysContent = event.target.checked
+      //   })
+      // }
 
-        virtualKeyboardToggle.addEventListener("change", (event) => {
-          navigator.virtualKeyboard.overlaysContent = event.target.checked
-        })
-      }
-
-      writeWindowData()
-      writeVirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
-      out.virtualKeyboardAvailable.innerText = hasVirtualKeyboard ? "YES" : "NO"
+      // writeVirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
+      // out.virtualKeyboardAvailable.innerText = hasVirtualKeyboard ? "YES" : "NO"
     </script>
   </body>
 </html>
