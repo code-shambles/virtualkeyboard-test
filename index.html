@@ -42,7 +42,7 @@
       .dataLabel {
         font-size: 0.75rem;
       }
-      input {
+      input[type="text"] {
         margin: 12px 16px;
         padding: 12px 16px;
         width: calc(100% - 32px);
@@ -102,7 +102,13 @@
 
     <div class="headingRow">
       <div class="headingRowBg"></div>
-      <input placeholder="Focus here to open keyboard" />
+      <input type="checkbox" checked id="virtualKeyboardOptOut" />use automatic
+      virtualKeyboard
+    </div>
+
+    <div class="headingRow">
+      <div class="headingRowBg"></div>
+      <input type="text" placeholder="Focus here to open keyboard on mobile" />
     </div>
 
     <script>
@@ -113,7 +119,7 @@
         return value
       }
 
-      const writevirtualKeyboardData = ({
+      const writeVirtualKeyboardData = ({
         width,
         height,
         x,
@@ -142,6 +148,10 @@
         out.windowClientHeight.innerText = formatData(window.clientHeight)
       }
 
+      const virtualKeyboardToggle = document.getElementById(
+        "virtualKeyboardOptOut"
+      )
+
       const out = {
         windowInnerWidth: document.getElementById("windowInnerWidth"),
         windowInnerHeight: document.getElementById("windowInnerHeight"),
@@ -162,20 +172,26 @@
         virtualKeyboardLeft: document.getElementById("virtualKeyboardLeft"),
       }
 
+      const hasVirtualKeyboard = "virtualKeyboard" in navigator
+
       window.addEventListener("resize", writeWindowData)
 
-      if (!!navigator.virtualKeyboard) {
-        navigator.virtualKeyboard.ongeometrychange = () => {
-          writevirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
-        }
+      if (hasVirtualKeyboard) {
+        navigator.virtualKeyboard.addEventListener(
+          "geometrychange",
+          (event) => {
+            writeVirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
+          }
+        )
+
+        virtualKeyboardToggle.addEventListener("change", (event) => {
+          navigator.virtualKeyboard.overlaysContent = event.target.checked
+        })
       }
-      console.log(navigator.virtualKeyboard.boundingRect)
 
       writeWindowData()
-      writevirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
-      out.virtualKeyboardAvailable.innerText = !!navigator.virtualKeyboard
-        ? "YES"
-        : "NO"
+      writeVirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
+      out.virtualKeyboardAvailable.innerText = hasVirtualKeyboard ? "YES" : "NO"
     </script>
   </body>
 </html>
