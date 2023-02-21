@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <style>
+      div {
+        border-bottom: 1px solid #aaa;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      window.innerWidth x window.innerHeight<br />
+      <span id="windowInnerWidth"></span> x
+      <span id="windowInnerHeight"></span>
+    </div>
+    <div>
+      window.outerWidth x window.outerHeight<br />
+      <span id="windowOuterWidth"></span> x
+      <span id="windowOuterHeight"></span>
+    </div>
+    <div>
+      window.clientWidth x window.clientHeight<br />
+      <span id="windowClientWidth"></span> x
+      <span id="windowClientHeight"></span>
+    </div>
+
+    <div>
+      navigator.virtualKeyboard<br />
+      <span id="virtualKeyboardAvailable"></span>
+    </div>
+    <div>
+      Size<br />
+      <span id="virtualKeyboardWidth"></span> x
+      <span id="virtualKeyboardHeight"></span>
+    </div>
+    <div>
+      Coords<br />
+      <span id="virtualKeyboardX"></span>,
+      <span id="virtualKeyboardY"></span>
+    </div>
+    <div>
+      Rect TRBL<br />
+      <span id="virtualKeyboardTop"></span>,
+      <span id="virtualKeyboardRight"></span>,
+      <span id="virtualKeyboardBottom"></span>,
+      <span id="virtualKeyboardLeft"></span>
+    </div>
+
+    <script>
+      const writevirtualKeyboardData = ({
+        width,
+        height,
+        x,
+        y,
+        top,
+        right,
+        bottom,
+        left,
+      }) => {
+        out.virtualKeyboardWidth.innerText = width
+        out.virtualKeyboardHeight.innerText = height
+        out.virtualKeyboardX.innerText = x
+        out.virtualKeyboardY.innerText = y
+        out.virtualKeyboardTop.innerText = top
+        out.virtualKeyboardRight.innerText = right
+        out.virtualKeyboardBottom.innerText = bottom
+        out.virtualKeyboardLeft.innerText = left
+      }
+
+      const writeWindowData = () => {
+        out.windowInnerWidth.innerText = window.innerWidth
+        out.windowInnerHeight.innerText = window.innerHeight
+        out.windowOuterWidth.innerText = window.outerWidth
+        out.windowOuterHeight.innerText = window.outerHeight
+        out.windowClientWidth.innerText = window.clientWidth
+        out.windowClientHeight.innerText = window.clientHeight
+      }
+
+      const out = {
+        windowInnerWidth: document.getElementById("windowInnerWidth"),
+        windowInnerHeight: document.getElementById("windowInnerHeight"),
+        windowOuterWidth: document.getElementById("windowOuterWidth"),
+        windowOuterHeight: document.getElementById("windowOuterHeight"),
+        windowClientWidth: document.getElementById("windowClientWidth"),
+        windowClientHeight: document.getElementById("windowClientHeight"),
+        virtualKeyboardAvailable: document.getElementById(
+          "virtualKeyboardAvailable"
+        ),
+        virtualKeyboardWidth: document.getElementById("virtualKeyboardWidth"),
+        virtualKeyboardHeight: document.getElementById("virtualKeyboardHeight"),
+        virtualKeyboardX: document.getElementById("virtualKeyboardX"),
+        virtualKeyboardY: document.getElementById("virtualKeyboardY"),
+        virtualKeyboardTop: document.getElementById("virtualKeyboardTop"),
+        virtualKeyboardRight: document.getElementById("virtualKeyboardRight"),
+        virtualKeyboardBottom: document.getElementById("virtualKeyboardBottom"),
+        virtualKeyboardLeft: document.getElementById("virtualKeyboardLeft"),
+      }
+
+      window.addEventListener("resize", writeWindowData)
+
+      if (!!navigator.virtualKeyboard) {
+        navigator.virtualKeyboard.ongeometrychange = () => {
+          writevirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
+        }
+      }
+      console.log(navigator.virtualKeyboard.boundingRect)
+
+      writeWindowData()
+      writevirtualKeyboardData(navigator.virtualKeyboard.boundingRect)
+      out.virtualKeyboardAvailable.innerText = !!navigator.virtualKeyboard
+        ? "YES"
+        : "NO"
+    </script>
+  </body>
+</html>
